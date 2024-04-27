@@ -57,6 +57,27 @@ velocityCA v0 a0 t = v0 + a0 * t
 positionCA :: Position -> Velocity -> Acceleration -> Time -> Position
 positionCA x0 v0 a0 t = x0 + v0 * t + 0.5 * a0 * t ** 2
 
+-- exercise 4.1
+f1 :: (Floating a) => a -> a
+f1 x = 0.5 * x ** 2
+
+der1 = derivate 0.1 f1
+
+der2 = derivate 1 f1
+
+der3 = derivate 10 f1
+
+-- excerise 4.2
+
+f2 :: (Floating a) => a -> a
+f2 x = x ** 3
+
 main :: IO ()
+-- ghci> main
+-- der1: 1.0000000000000002
+-- der2: 1.0
+-- der3: 1.0
 main = do
-  putStrLn "Hello, world!"
+  putStrLn ("der1: " ++ show (der1 1))
+  putStrLn ("der2: " ++ show (der2 1))
+  putStrLn ("der3: " ++ show (der3 1))
