@@ -1,3 +1,5 @@
+import Control.Monad.RWS (MonadState (put))
+
 -- Describing Motion
 
 type R = Double
@@ -69,8 +71,13 @@ der3 = derivate 10 f1
 
 -- excerise 4.2
 
-f2 :: (Floating a) => a -> a
-f2 x = x ** 3
+analitycDerivate :: (Floating a) => a -> a
+analitycDerivate x = x ** 3
+
+symbolicDerivate :: (Floating a) => a -> a
+symbolicDerivate x = 3 * x ** 2
+
+der4 = derivate 1 analitycDerivate
 
 main :: IO ()
 -- ghci> main
@@ -78,6 +85,7 @@ main :: IO ()
 -- der2: 1.0
 -- der3: 1.0
 main = do
-  putStrLn ("der1: " ++ show (der1 1))
-  putStrLn ("der2: " ++ show (der2 1))
-  putStrLn ("der3: " ++ show (der3 1))
+  -- putStrLn ("der1: " ++ show (der1 1))
+  -- putStrLn ("der2: " ++ show (der2 1))
+  -- putStrLn ("der3: " ++ show (der3 1))
+  putStrLn ("der4: " ++ show (der4 1))
