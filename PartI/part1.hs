@@ -172,6 +172,27 @@ test1 = take 1 $ expFunction 1000
 
 test10 = take 10 $ expFunction 1000
 
+--  function to integratelower bound, upper bound, result
+type Integration = (R -> R) -> R -> R -> R
+
+integral :: R -> Integration
+-- using midpoint rule
+integral dt f a b = sum [f (t * dt) | t <- [a + dt / 2, a + 3 * dt / 2 .. b - dt / 2]]
+
+-- ghci> integral 0.01 (\x -> 1 / (x **2)) 0 1
+-- 4.9248022838750976e8
+
+-- lets implement anti derivates
+-- initial value, function, function
+type Antiderivative = R -> (R -> R) -> (R -> R)
+
+antiderivate :: R -> Antiderivative
+antiderivate dt v0 a t = v0 + integral dt a 0 t
+
+velFromAcc :: R -> Velocity -> AccelerationFunction -> VelocityFunction
+-- velFromAcc dt v0 a t = antiderivate dt v0 a t
+velFromAcc = antiderivate
+
 main = do
   -- putStrLn ("der1: " ++ show (der1 1))
   -- putStrLn ("der2: " ++ show (der2 1))
