@@ -100,7 +100,8 @@ funcs :: [R -> R]
 funcs = [cos, sin, tan, exp, log, sqrt, (** 2), (** 3), (** 4), (** 5)]
 
 -- list function
-sum = velocities ++ moreVelocities
+sumVelocities :: [R]
+sumVelocities = velocities ++ moreVelocities
 
 ts :: [R]
 ts = [0, 0.1 .. 6]
@@ -132,6 +133,24 @@ secondItem4 :: [a] -> a
 secondItem4 [] = error "empty list"
 secondItem4 [x] = error "list too short"
 secondItem4 (x : xs) = head xs
+
+-- exercise 5.5
+
+null' :: [a] -> Bool
+null' ys = length ys == 0
+
+-- suggests native null'
+
+-- exercise 5.12
+
+expression :: (Floating a) => a -> a
+expression n = 1 / (n ** 2)
+
+evaluateTill :: [Double]
+evaluateTill = [1 .. 100]
+
+euler :: Double
+euler = sum [1 / (n ** 2) | n <- evaluateTill]
 
 main = do
   -- putStrLn ("der1: " ++ show (der1 1))
