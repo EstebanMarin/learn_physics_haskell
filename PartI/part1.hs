@@ -111,6 +111,28 @@ yRock30 t = 30 * t - 0.5 * 9.8 * t ** 2
 xs :: [R]
 xs = [yRock30 t | t <- ts]
 
+-- constructors and pattern matiching
+
+secondItem :: [a] -> a
+secondItem ys = case ys of
+  [] -> error "empty list"
+  (x : xs) -> if null xs then error "list too short" else head xs
+
+secondItem2 :: [a] -> a
+secondItem2 [] = error "empty list"
+secondItem2 (x : xs) = if null xs then error "list too short" else head xs
+
+secondItem3 :: [a] -> a
+secondItem3 ys = case ys of
+  [] -> error "empty list"
+  [x] -> error "list too short"
+  (x : xs) -> head xs
+
+secondItem4 :: [a] -> a
+secondItem4 [] = error "empty list"
+secondItem4 [x] = error "list too short"
+secondItem4 (x : xs) = head xs
+
 main = do
   -- putStrLn ("der1: " ++ show (der1 1))
   -- putStrLn ("der2: " ++ show (der2 1))
