@@ -152,6 +152,24 @@ evaluateTill = [1 .. 100]
 euler :: Double
 euler = sum [1 / (n ** 2) | n <- evaluateTill]
 
+factProc :: (Num a, Enum a) => a -> [a]
+factProc n = [product [1 .. n] | n <- [1 .. n]]
+
+factTest :: (Num a, Enum a) => a -> a
+factTest n = last $ [product [1 .. n] | n <- [1 .. n]]
+
+expFunction :: (Enum a, Floating a) => p -> [a]
+expFunction n = [(1 + 1 / n) ** n | n <- [0 ..]]
+
+limit :: (Enum a, Ord a, Fractional a, Floating a) => a -> a
+limit epsilon = head [x | (x, y) <- zip sequence (tail sequence), abs (x - y) < epsilon]
+  where
+    sequence = [(1 + 1 / n) ** n | n <- [1 ..]]
+
+test1 = take 1 $ expFunction 1000
+
+test10 = take 10 $ expFunction 1000
+
 main = do
   -- putStrLn ("der1: " ++ show (der1 1))
   -- putStrLn ("der2: " ++ show (der2 1))
