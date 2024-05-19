@@ -139,6 +139,8 @@ secondItem4 (x : xs) = head xs
 null' :: [a] -> Bool
 null' ys = length ys == 0
 
+-- null' = null
+
 -- suggests native null'
 
 -- exercise 5.12
