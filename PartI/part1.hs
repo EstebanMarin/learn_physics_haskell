@@ -84,6 +84,33 @@ main :: IO ()
 -- der1: 1.0000000000000002
 -- der2: 1.0
 -- der3: 1.0
+
+-- velocities
+velocities :: [R]
+velocities = [0, -9.8, -19.6, -29.4, -39.2, -49, -58.8, -68.6, -78.4, -88.2, -98]
+
+moreVelocities :: [R]
+moreVelocities = [0, -9.8, -19.6, -29.4, -39.2, -49, -58.8, -68.6, -78.4, -88.2, -98]
+
+ns :: [R]
+ns = [0 .. 10]
+
+-- list typeS
+funcs :: [R -> R]
+funcs = [cos, sin, tan, exp, log, sqrt, (** 2), (** 3), (** 4), (** 5)]
+
+-- list function
+sum = velocities ++ moreVelocities
+
+ts :: [R]
+ts = [0, 0.1 .. 6]
+
+yRock30 :: R -> R
+yRock30 t = 30 * t - 0.5 * 9.8 * t ** 2
+
+xs :: [R]
+xs = [yRock30 t | t <- ts]
+
 main = do
   -- putStrLn ("der1: " ++ show (der1 1))
   -- putStrLn ("der2: " ++ show (der2 1))
