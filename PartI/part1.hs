@@ -193,8 +193,8 @@ velFromAcc :: R -> Velocity -> AccelerationFunction -> VelocityFunction
 -- velFromAcc dt v0 a t = antiderivate dt v0 a t
 velFromAcc = antiderivate
 
+postFromVel :: R -> Position -> VelocityFunction -> PositionFunction
+postFromVel = antiderivate
+
 main = do
-  -- putStrLn ("der1: " ++ show (der1 1))
-  -- putStrLn ("der2: " ++ show (der2 1))
-  -- putStrLn ("der3: " ++ show (der3 1))
-  putStrLn ("der4: " ++ show (der4 1))
+  putStrLn "Part I"
