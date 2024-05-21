@@ -109,6 +109,12 @@ ts = [0, 0.1 .. 6]
 yRock30 :: R -> R
 yRock30 t = 30 * t - 0.5 * 9.8 * t ** 2
 
+yRock :: R -> R -> R
+yRock v0 t = v0 * t - 0.5 * 9.8 * t ** 2
+
+xRock :: R -> R -> R
+xRock v0 t = v0 * t
+
 xs :: [R]
 xs = [yRock30 t | t <- ts]
 
