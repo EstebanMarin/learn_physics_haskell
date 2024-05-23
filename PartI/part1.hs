@@ -1,4 +1,6 @@
 -- import Control.Monad.RWS (MonadState (put))
+
+import Data.Maybe (maybeToList)
 import Graphics.Gnuplot.Simple
 
 -- Describing Motion
@@ -209,9 +211,11 @@ plot = plotFunc [] ([0, 0.1 .. 10] :: [Double]) cos
 plotx :: IO ()
 plotx = plotFunc [] ([0, 0.1 .. 6] :: [Double]) (xRock 30)
 
+-- Execercise 8.1
 test :: (Floating a, Enum a) => a -> a
 test n = undefined
 
+-- yes but we can create a problematic no way we can make it compile
 test2 :: (Floating a, Integral a) => a -> a
 test2 n = undefined
 
@@ -235,6 +239,70 @@ ploty = plotFunc [] ([0, 0.1 .. 6] :: [Double]) (yRock 30)
 -- instance Num Int -- Defined in ‘GHC.Num’
 -- instance Num Integer -- Defined in ‘GHC.Num’
 -- instance Num Word -- Defined in ‘GHC.Num’
+
+-- Numerical Integration
+
+oneStep :: R -> (R -> R) -> (R, R) -> (R, R)
+oneStep dt f (t, x) = (t + dt, x + f t * dt)
+
+integral' :: R -> Integration
+integral' dt f a b =
+  snd $ head $ dropWhile (\(t, _) -> t < b) $ iterate (oneStep dt f) (a + dt / 2, 0)
+
+-- exercise 9.1
+polarToCart :: (R, R) -> (R, R)
+polarToCart (r, theta) = (r * cos theta, r * sin theta)
+
+-- exercise 9.3
+headSafe :: [a] -> Maybe a
+headSafe [] = Nothing
+headSafe (x : _) = Just x
+
+-- exercise 9.4
+maybeToList' :: Maybe a -> [a]
+maybeToList' Nothing = []
+maybeToList' (Just x) = [x]
+
+-- exercise 9.6
+
+zip' :: ([a], [b]) -> [(a, b)]
+zip' (xs, ys) = zip xs ys
+
+-- exercise 9.10
+-- time velocity pairs tvPair
+
+tvPairs :: [(R, R)]
+tvPairs = iterate tvUpdate (0, 0)
+
+tvUpdate :: (R, R) -> (R, R)
+tvUpdate (t, v) = (t + 1, yRock v t)
+
+-- ghci> take 10 tvPairs
+-- [(0.0,0.0),(1.0,0.0),(2.0,-4.9),(3.0,-29.400000000000002),(4.0,-132.3),(5.0,-607.6),(6.0,-3160.5),(7.0,-19139.4),(8.0,-134215.90000000002),(9.0,-1074040.8000000003)]
+
+-- exercise 9.11
+
+fibonnaci :: [Int]
+fibonnaci = 0 : 1 : zipWith (+) fibonnaci (tail fibonnaci)
+
+fibHelper :: [(Int, Int)]
+fibHelper = zip [0 ..] fibonnaci
+
+-- ghci> take 10 fibHelper
+-- [(0,0),(1,1),(2,1),(3,2),(4,3),(5,5),(6,8),(7,13),(8,21),(9,34)]
+
+-- exercise 9.12'
+-- factorial' :: Int -> Int
+-- factorial' n = iterate (\(x, y) -> (x + 1, y * (x + 1))) (0, 1) !! n
+
+factorialHelp :: [(Int, Int)]
+factorialHelp = iterate (\(x, y) -> (x + 1, y * (x + 1))) (0, 1)
+
+factorialH :: Int -> Int
+factorialH n = snd $ factorialHelp !! n
+
+-- ghci> take 10 factorialHelp
+-- [(0,1),(1,1),(2,2),(3,6),(4,24),(5,120),(6,720),(7,5040),(8,40320),(9,362880)]
 
 main = do
   putStrLn "Part I"
