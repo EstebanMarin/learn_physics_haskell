@@ -1,4 +1,5 @@
-import Control.Monad.RWS (MonadState (put))
+-- import Control.Monad.RWS (MonadState (put))
+import Graphics.Gnuplot.Simple
 
 -- Describing Motion
 
@@ -201,6 +202,39 @@ velFromAcc = antiderivate
 
 postFromVel :: R -> Position -> VelocityFunction -> PositionFunction
 postFromVel = antiderivate
+
+plot :: IO ()
+plot = plotFunc [] ([0, 0.1 .. 10] :: [Double]) cos
+
+plotx :: IO ()
+plotx = plotFunc [] ([0, 0.1 .. 6] :: [Double]) (xRock 30)
+
+test :: (Floating a, Enum a) => a -> a
+test n = undefined
+
+test2 :: (Floating a, Integral a) => a -> a
+test2 n = undefined
+
+ploty :: IO ()
+ploty = plotFunc [] ([0, 0.1 .. 6] :: [Double]) (yRock 30)
+
+-- ghci> :i Num
+-- type Num :: * -> Constraint
+-- class Num a where
+--   (+) :: a -> a -> a
+--   (-) :: a -> a -> a
+--   (*) :: a -> a -> a
+--   negate :: a -> a
+--   abs :: a -> a
+--   signum :: a -> a
+--   fromInteger :: Integer -> a
+--   {-# MINIMAL (+), (*), abs, signum, fromInteger, (negate | (-)) #-}
+--         -- Defined in ‘GHC.Num’
+-- instance Num Double -- Defined in ‘GHC.Float’
+-- instance Num Float -- Defined in ‘GHC.Float’
+-- instance Num Int -- Defined in ‘GHC.Num’
+-- instance Num Integer -- Defined in ‘GHC.Num’
+-- instance Num Word -- Defined in ‘GHC.Num’
 
 main = do
   putStrLn "Part I"
