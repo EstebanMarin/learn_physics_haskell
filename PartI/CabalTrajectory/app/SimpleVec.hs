@@ -85,8 +85,7 @@ projectilePos r0 v0 = positionCA r0 v0 (9.81 *^ negateV kHat)
 
 type R = Double
 
-data Mass = Mass R
-  deriving (Eq, Show)
+newtype Mass = Mass R deriving (Eq, Show)
 
 data Grade = Grade String Int
   deriving (Eq, Show)
