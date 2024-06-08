@@ -85,7 +85,7 @@ projectilePos r0 v0 = positionCA r0 v0 (9.81 *^ negateV kHat)
 
 type R = Double
 
-data Mass = Mass R
+newtype Mass = Mass R
   deriving (Eq, Show)
 
 data Grade = Grade String Int
@@ -95,7 +95,8 @@ grades :: [Grade]
 grades =
   [ Grade "Albert Einstein" 89,
     Grade "Isaac Newton" 95,
-    Grade "Alan Turing" 91
+    Grade "Alan Turing" 91,
+    Grade "Esteban Marin" 37
   ]
 
 data GradeRecord = GradeRecord
@@ -198,22 +199,19 @@ Vec ax ay az ^/ c = Vec (ax / c) (ay / c) (az / c)
 magnitude :: Vec -> R
 magnitude v = sqrt (v <.> v)
 
+-- excerise 10.2
+
 vecIntegral ::
   R -> -- step size dt
   (R -> Vec) -> -- vector-valued function
   R -> -- lower limit
   R -> -- upper limit
   Vec -- result
-vecIntegral = undefined
+vecIntegral dt v a b =
+  sumV [v t ^* dt | t <- [a + dt / 2, a + 3 * dt / 2 .. b - dt / 2]]
 
 maxHeight :: PosVec -> Velocity -> R
 maxHeight = undefined
-
-speedCA :: Velocity -> Acceleration -> Time -> R
-speedCA = undefined
-
-xyProj :: Vec -> Vec
-xyProj = undefined
 
 magAngles :: Vec -> (R, R, R)
 magAngles = undefined
@@ -235,3 +233,42 @@ aPerpFromPosition epsilon r t =
   let v = vecDerivative epsilon r
       a = vecDerivative epsilon v
    in aPerp (v t) (a t)
+
+-- excerise 10.3
+
+maxHeightVec :: PosVec -> Velocity -> R
+maxHeightVec r0 v0 =
+  let a = negateV kHat -- defines gravity
+      t = yComp v0 / yComp a
+   in yComp (positionCA r0 v0 a t)
+
+-- excerise 10.4
+
+speedCA :: Velocity -> Acceleration -> Time -> R
+speedCA v0 a t = magnitude (v0 ^+^ a ^* t)
+
+-- excerise 10.5
+
+-- projectilePos :: PosVec -> Velocity -> Time -> PosVec
+
+-- excerise 10.7
+xyProj :: Vec -> Vec
+xyProj (Vec x y _) = vec x y 0
+
+testXYpro :: Vec
+testXYpro = xyProj (vec 1 2 3)
+
+-- ex 10.8
+
+zProj :: Vec -> Vec
+zProj (Vec _ _ z) = vec 0 0 z
+
+maxAngles :: Vec -> (R, R, R)
+maxAngles v =
+  let mag = magnitude v
+      thetaZ = 1 / tan (magnitude (xyProj v) / zComp v)
+      thetaXY = 1 / (yComp v / xComp v)
+   in (mag, thetaZ, thetaXY)
+
+testMxAngles :: (R, R, R)
+testMxAngles = maxAngles (vec (-1) (-2) (-3))
