@@ -1,5 +1,3 @@
--- import Control.Monad.RWS (MonadState (put))
-
 import Data.Maybe (maybeToList)
 import Graphics.Gnuplot.Simple
 
